@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KDP Master Pro</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#0f1115;
+  color:#fff;
+  margin:0;
+}
+.app{
+  max-width:480px;
+  margin:auto;
+  padding:20px;
+}
+h2{color:#f0c14b;text-align:center}
+.card{
+  background:#1a1c22;
+  padding:20px;
+  border-radius:14px;
+}
+label{font-size:12px;color:#f0c14b}
+input,select{
+  width:100%;
+  padding:10px;
+  margin-bottom:12px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#222;
+  color:#fff;
+}
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(45deg,#f0c14b,#d4a437);
+  font-weight:bold;
+}
+#results{
+  display:none;
+  margin-top:20px;
+  background:#222;
+  padding:15px;
+  border-radius:10px;
+}
+.res{display:flex;justify-content:space-between;margin-bottom:6px}
+.footer{text-align:center;font-size:12px;margin-top:20px;color:#aaa}
+</style>
+</head>
+
+<body>
+<div class="app">
+<h2>KDP MASTER PRO</h2>
+
+<div class="card">
+<label>Marketplace</label>
+<select id="mkt">
+  <option value="USD">Amazon.com ($)</option>
+  <option value="INR">Amazon.in (₹)</option>
+</select>
+
+<label>Trim Width (inch)</label>
+<input id="w" type="number" value="6">
+
+<label>Trim Height (inch)</label>
+<input id="h" type="number" value="9">
+
+<label>Total Pages</label>
+<input id="p" type="number">
+
+<label>List Price</label>
+<input id="price" type="number" value="9.99" step="0.01">
+
+<button onclick="calculate()">Calculate</button>
+</div>
+
+<div id="results">
+  <div class="res"><span>Full Width</span><span id="fw"></span></div>
+  <div class="res"><span>Full Height</span><span id="fh"></span></div>
+  <div class="res"><span>Spine</span><span id="sp"></span></div>
+  <div class="res"><span>Est. Royalty</span><span id="roy"></span></div>
+</div>
+
+<div class="footer">© 2026 KDP Master Pro</div>
+</div>
+
+<script>
+function calculate(){
+  const w=parseFloat(wId.value);
+  const h=parseFloat(hId.value);
+  const p=parseInt(pId.value);
+  const price=parseFloat(priceId.value);
+  const mkt=mktId.value;
+
+  if(!p || p<24){alert("Minimum 24 pages required");return;}
+
+  const paper = mkt==="USD" ? 0.002252 : 0.002347;
+  const spine = (p*paper).toFixed(3);
+
+  fw.textContent=(w*2+parseFloat(spine)).toFixed(3)+" in";
+  fh.textContent=h.toFixed(3)+" in";
+  sp.textContent=spine+" in";
+
+  const royalty = mkt==="USD"
+    ? "$"+(price*0.6).toFixed(2)
+    : "₹"+(price*0.6).toFixed(0);
+
+  roy.textContent=royalty;
+  results.style.display="block";
+}
+
+const wId=w,hId=h,pId=p,priceId=price,mktId=mkt;
+</script>
+</body>
+</html>
